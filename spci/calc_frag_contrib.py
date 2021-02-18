@@ -10,14 +10,12 @@
 
 import os
 import argparse
-import platform
 import numpy as np
-from itertools import tee
-from sklearn.externals import joblib
+import joblib
 from collections import defaultdict, OrderedDict, Counter
 
-from sirms_file_class import SirmsFile, mol_frag_sep
-from predict import load_multi_obj
+from .sirms_file_class import SirmsFile, mol_frag_sep
+from .predict import load_multi_obj
 
 
 def load_sirms(fname):
@@ -248,7 +246,10 @@ def main_params(x_fname, out_fname, model_names, model_dir, prop_names, model_ty
                                                           x_frag_mol_names)
                             frag_pred = predict_avg(x_frag_prep, models, model_name, model_type)
 
-                        frag_contrib[model_name][prop_name].extend([train_pred[mol_name] - frag_pred[i] for i, mol_name in enumerate(x_frag_mol_names)])
+                        try:
+                            frag_contrib[model_name][prop_name].extend([train_pred[mol_name] - frag_pred[i] for i, mol_name in enumerate(x_frag_mol_names)])
+                        except KeyError:
+                            pass
 
                         if save_pred:
                             with open(save_pred_fname, "at") as f:

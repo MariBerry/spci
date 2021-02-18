@@ -10,13 +10,13 @@
 import os
 import argparse
 import numpy as np
-from sklearn.externals import joblib
+import joblib
 from collections import defaultdict, Counter
 import re
 import math
 import operator
 
-from sirms_file_class import SirmsFile
+from .sirms_file_class import SirmsFile
 
 
 def get_var_names(fname, fformat):
